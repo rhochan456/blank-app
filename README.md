@@ -1,25 +1,26 @@
-# 🎈 Blank app template
+# 🎯 Tight-Stop Trade Ideas
 
-A simple Streamlit app template for you to modify!
+A Streamlit trading-idea scanner. It scans a watchlist (stocks, ETFs, crypto via Yahoo Finance) for
+setups whose **stop loss is tight**, meaning no wider than a set number of ATRs, and gives you entry, stop,
+target and position size for each one.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://blank-app-template.streamlit.app/)
+**Setups:** trend pullback to the 20 EMA, volume breakout/breakdown, and inside bars (long and short).
 
-### How to run it on your own machine
+**How a trade is built:**
+- Entry: a stop order just beyond the signal bar, valid for the next bar only
+- Stop: just beyond the other side of the signal bar. The idea is **dropped if the stop is wider than your max ATR**
+- Target: your reward:risk multiple (default 2R)
+- Size: shares so a stop-out costs your chosen % of the account
+- Past stats: the same rules replayed on that ticker's history (win rate and average R)
 
-Prerequisite: install `uv` if you don't already have it.
+> ⚠️ Educational tool, not financial advice. It does not place orders.
+
+## Run it
 
 ```
-$ curl -LsSf https://astral.sh/uv/install.sh | sh
+$ curl -LsSf https://astral.sh/uv/install.sh | sh   # if you don't have uv
+$ uv sync
+$ uv run streamlit run streamlit_app.py
 ```
 
-1. Sync the dependencies
-
-   ```
-   $ uv sync
-   ```
-
-2. Run the app
-
-   ```
-   $ uv run streamlit run streamlit_app.py
-   ```
+Tests: `uv run pytest`
